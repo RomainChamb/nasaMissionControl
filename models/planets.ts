@@ -6,12 +6,12 @@ import { parse } from "https://deno.land/std/encoding/csv.ts";
 // Third party modules
 import * as _ from "https://deno.land/x/lodash@4.17.15-es/lodash.js";
 
-interface Planet {
-    [ key : string ] : string
-}
+type Planet = Record<string, string>;
+
+let planets: Array<Planet>;
 
 async function loadPlanetsData() {
-    const path = join(".", "kepler_exoplanets_nasa.csv");
+    const path = join("data", "kepler_exoplanets_nasa.csv");
 
     const file = await Deno.open(path);
     const bufReader = new BufReader(file);
@@ -41,14 +41,9 @@ async function loadPlanetsData() {
     });
 }
 
-const newEarths = await loadPlanetsData();
+planets = await loadPlanetsData();
+console.log(`${planets.length} habitable planets found !`);
 
-console.log(`${newEarths.length} habitable planets found !`);
-for (const planet of newEarths) {
-    console.table(planet);
+export function getAllPlanets(): Array<Planet> {
+    return planets;
 }
-
-
-const sortedEarth = newEarths.sort((planetA, planetB) => Number(planetA.koi_period) - Number(planetB.koi_period));
-console.log(`${sortedEarth[0].kepler_name} has the shortest orbital period : ${sortedEarth[0].koi_period} days`);
-console.log(`${sortedEarth[sortedEarth.length - 1].kepler_name} has the longest orbital period : ${sortedEarth[sortedEarth.length - 1].koi_period} days`);
