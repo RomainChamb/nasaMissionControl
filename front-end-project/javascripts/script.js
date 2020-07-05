@@ -25,6 +25,14 @@ function loadPlanets() {
   // planets.forEach((planet) => {
   //   planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
   // });
+  const planets = [
+    {kepler_name: "X AE A-12"},
+    {kepler_name: "Gamma G Ω"}
+  ];
+  const planetSelector = document.getElementById("planets-selector");
+  planets.forEach((planet) => {
+    planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
+  })
 }
 
 function abortLaunch() {
@@ -38,7 +46,6 @@ function submitLaunch() {
   const mission = document.getElementById("mission-name").value;
   const rocket = document.getElementById("rocket-name").value;
   const flightNumber = launches[launches.length - 1].flightNumber + 1;
-
   // TODO: Once API is ready.
   // Submit above data to launch system and reload launches.
 }
