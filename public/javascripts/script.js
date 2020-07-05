@@ -1,3 +1,4 @@
+// @ts-nocheck
 let launches;
 
 const numberHeading = "No.".padStart(5);
@@ -20,19 +21,15 @@ function loadLaunches() {
 }
 
 function loadPlanets() {
-  // TODO: Once API is ready.
-  // const planetSelector = document.getElementById("planets-selector");
-  // planets.forEach((planet) => {
-  //   planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
-  // });
-  const planets = [
-    {kepler_name: "X AE A-12"},
-    {kepler_name: "Gamma G Ω"}
-  ];
-  const planetSelector = document.getElementById("planets-selector");
-  planets.forEach((planet) => {
-    planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
-  })
+  return fetch("/planets")
+    .then((planetsResponse) => planetsResponse.json())
+    .then((planets) => {
+      console.log("je suis ici");
+      const planetSelector = document.getElementById("planets-selector");
+      planets.forEach((planet) => {
+        planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
+      });
+    });
 }
 
 function abortLaunch() {

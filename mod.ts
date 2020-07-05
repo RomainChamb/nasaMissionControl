@@ -25,7 +25,7 @@ app.use(async (ctx) => {
     const filePath = ctx.request.url.pathname;
     const fileWhiteList = [
         "/index.html",
-        "/javascript/script.js",
+        "/javascripts/script.js",
         "/stylesheets/style.css",
         "/images/favicon.png"
     ];
