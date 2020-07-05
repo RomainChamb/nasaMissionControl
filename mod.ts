@@ -1,4 +1,6 @@
-import { Application } from "https://deno.land/x/oak@v5.3.1/mod.ts";
+import { Application, send } from "https://deno.land/x/oak@v5.3.1/mod.ts";
+
+import api from "./api.ts";
 
 const app = new Application();
 const PORT = 8000;
@@ -16,20 +18,19 @@ app.use(async (ctx, next) => {
     ctx.response.headers.set("X-Response-Time", `${delta}ms`);
 });
 
-app.use(async (ctx, next) => {
-    ctx.response.body = `
-                                                                 
-888b      88         db         ad88888ba         db         
-8888b     88        d88b       d8"     "8b       d88b        
-88 \`8b    88       d8'\`8b      Y8,              d8'\`8b       
-88  \`8b   88      d8'  \`8b     \`Y8aaaaa,       d8'  \`8b      
-88   \`8b  88     d8YaaaaY8b      \`"""""8b,    d8YaaaaY8b     
-88    \`8b 88    d8""""""""8b           \`8b   d8""""""""8b    
-88     \`8888   d8'        \`8b  Y8a     a8P  d8'        \`8b   
-88      \`888  d8'          \`8b  "Y88888P"  d8'          \`8b      
+app.use(api.routes());
 
-                    Mission Control API`;
-await next();
+app.use(async (ctx) => {
+    const filePath = ctx.request.url.pathname;
+    const fileWhiteList = [
+        "/index.html",
+        "/javascript/script.js",
+        "/stylesheets/style.css",
+        "/images/favicon.png"
+    ];
+    if (fileWhiteList.includes(filePath)) {
+        await send(ctx, filePath, { root: `${Deno.cwd()}/public`});
+    }
 });
 
 if (import.meta.main) {
