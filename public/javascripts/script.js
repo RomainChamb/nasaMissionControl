@@ -24,7 +24,6 @@ function loadPlanets() {
   return fetch("/planets")
     .then((planetsResponse) => planetsResponse.json())
     .then((planets) => {
-      console.log("je suis ici");
       const planetSelector = document.getElementById("planets-selector");
       planets.forEach((planet) => {
         planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
