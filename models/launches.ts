@@ -57,3 +57,10 @@ export function getOne(id: number) {
     }
     throw new Error("Launch with that ID doesn't exist.")
 }
+
+export function addOne(data: Launch) {
+    launches.set(data.flightNumber, Object.assign(data, {
+        customers: ["Koalab", "NASA"],
+        upcoming: true,
+    }));
+}
