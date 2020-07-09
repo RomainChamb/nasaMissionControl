@@ -1,6 +1,7 @@
 import { Router } from "https://deno.land/x/oak@v5.3.1/mod.ts";
 
 import * as planets from "./models/planets.ts";
+import * as launches from "./models/launches.ts";
 
 const router = new Router();
 
@@ -20,6 +21,21 @@ router.get("/", (ctx) => {
 
 router.get("/planets", (ctx) => {
     ctx.response.body = planets.getAllPlanets();
-})
+});
+
+router.get("/launches", (ctx) => {
+    ctx.response.body = launches.getAll();
+});
+
+router.get("/launches/:id", (ctx) => {
+    try {
+        if (ctx.params?.id) {
+            ctx.response.body = launches.getOne(Number(ctx.params.id));
+        }
+    } catch (err) {
+        ctx.throw(404, "Launch with that id doesn't exist.");
+    }
+    
+});
 
 export default router;
