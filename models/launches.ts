@@ -64,3 +64,12 @@ export function addOne(data: Launch) {
         upcoming: true,
     }));
 }
+
+export function removeOne(id :number) {
+    const aborted = getOne(id);
+    if (aborted) {
+        aborted.success = false;
+        aborted.upcoming = false;
+    }
+    return aborted;
+}

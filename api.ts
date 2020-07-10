@@ -31,6 +31,8 @@ router.get("/launches/:id", (ctx) => {
     try {
         if (ctx.params?.id) {
             ctx.response.body = launches.getOne(Number(ctx.params.id));
+        } else {
+            ctx.throw(400, "Bad request");
         }
     } catch (err) {
         ctx.throw(404, "Launch with that id doesn't exist.");
@@ -43,6 +45,19 @@ router.post("/launches", async (ctx) => {
     launches.addOne(body.value);
     ctx.response.body = { success : true};
     ctx.response.status = 201;
+});
+
+router.delete("/launches/:id", (ctx) => {
+    try {
+        if (ctx.params?.id) {
+            const result = launches.removeOne(Number(ctx.params.id));
+            ctx.response.body = { success: result }
+        } else {
+            ctx.throw(400, "Bad request.");
+        }
+    } catch (err) {
+        ctx.throw(404, "Launch with that id doesn't exist.");
+    }
 });
 
 export default router;
